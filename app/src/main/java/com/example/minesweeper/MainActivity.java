@@ -140,4 +140,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void updateGraphics(Button[][] board) {
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[1].length; j++) {
+                //board[i][j]
+            }
+        }
+
+    }
+
 }
