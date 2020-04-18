@@ -58,7 +58,7 @@ public class BoardLogic {
 
 
     public int getSpace(int row, int col) {
-        if(board[row][col] == -9 ||board[row][col] == 9 ){
+        if(board[row][col] == 9 ){
             return 9;
         } else if (board[row][col]< 0){
             return -1;
@@ -129,6 +129,7 @@ public class BoardLogic {
             }
 
         } else if( board[i][j] == -10) {
+            System.out.println("in loop");
             for (int h = i - 1; h < i + 1; h++) {
                     for (int m = j - 1; m < j + 1; m++) {
                         try {
