@@ -15,11 +15,13 @@ public class MainActivity extends AppCompatActivity {
     private SeekBar seek2;
     private TextView TV2;
     private String Difficulty;
+    private TextView error;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        error = findViewById(R.id.error);
         //seekbar wuth row values
         seek = (SeekBar) findViewById(R.id.rowbar);
         TV = (TextView) findViewById(R.id.NumberRows);
@@ -127,15 +129,20 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             //puts all the data into an intent and starts the gameboard activity
+            if (Difficulty == null){
+                error.setText("PLEASE ENTER A DIFFICULTY!");
+               return;
+            }
             Intent i = new Intent(MainActivity.this, GameBoardActivity.class);
             TextView Row = (TextView) findViewById(R.id.NumberRows);
             TextView Collumn = (TextView) findViewById(R.id.NumberCollumns);
             i.putExtra("Rows", Row.getText());
             i.putExtra("Collumns", Collumn.getText());
-            System.out.println(Difficulty);
+
             i.putExtra("Difficulty", Difficulty);
 
-            startActivity(i);
+                startActivity(i);
+
         }
 
     }

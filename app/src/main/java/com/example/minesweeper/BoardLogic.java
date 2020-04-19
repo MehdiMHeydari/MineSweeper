@@ -58,10 +58,22 @@ public class BoardLogic {
 
 
     public int getSpace(int row, int col) {
-        if (board[row][col]< 0){
-            return -1;
-        } else {
-            return board[row][col];
+        if (gameOver != true ) {
+            if (board[row][col] < 0) {
+                return -1;
+            } else {
+                return board[row][col];
+            }
+        }else{
+            if (board[row][col] == -10) {
+                return 0;
+            }else if (board[row][col] < 0) {
+                board[row][col] *= -1;
+                return board[row][col];
+            }else{
+                return board[row][col];
+            }
+
         }
     }
 
@@ -115,6 +127,13 @@ public class BoardLogic {
 
         System.out.println(board[i][j]);
         if (board[i][j] == -9){
+            for (int h = 0; i < rows; i++) {
+                for (int m = 0; j < collumns; j++) {
+                    if(board[h][m] < 0){
+                        board[h][m] *= -1;
+                    }
+                }
+            }
             gameOver = true;
         }
         if (isGameOver()){
@@ -127,12 +146,12 @@ public class BoardLogic {
             }
 
         } else if( board[i][j] == -10) {
+            board[i][j] = 0;
             System.out.println("in loop");
-            for (int h = i - 1; h < i + 1; h++) {
-                    for (int m = j - 1; m < j + 1; m++) {
+            for (int h = i - 1; h <= i + 1; h++) {
+                    for (int m = j - 1; m <= j + 1; m++) {
                         try {
                             if(board[h][m] == -10){
-                                board[h][m] = 0;
                                 pickSpace(h,m);
                             }
                         }catch (IndexOutOfBoundsException c) {

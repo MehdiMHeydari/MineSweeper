@@ -68,13 +68,13 @@ public class GameBoardActivity extends AppCompatActivity {
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 params.weight = 1;
                 b.setLayoutParams(params);
-                b.setTag(j+h);
+                b.setTag((j * collumns) + h);
                 b.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Button now = (Button)v;
                         int tag = (Integer)now.getTag();
-                        logic.pickSpace(tag/rows, tag % collumns);
+                        logic.pickSpace(tag/ collumns, tag % collumns);
                         System.out.println("getspace = " + logic.getSpace(tag/rows,tag% collumns));
 
                         Handler handler = new Handler();
@@ -124,6 +124,7 @@ public class GameBoardActivity extends AppCompatActivity {
             }
             for (int h = 0; h < buttons.length; h++) {
                 for (int m = 0; m < buttons[1].length; m++) {
+
                     buttons[h][m].setText(String.valueOf(logic.getSpace(h, m)));
                 }
             }
