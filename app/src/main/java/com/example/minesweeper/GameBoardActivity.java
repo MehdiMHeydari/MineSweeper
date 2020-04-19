@@ -122,6 +122,11 @@ public class GameBoardActivity extends AppCompatActivity {
             }else{
                 numopen.setText("YOU LOST :(");
             }
+            for (int h = 0; h < buttons.length; h++) {
+                for (int m = 0; m < buttons[1].length; m++) {
+                    buttons[h][m].setText(String.valueOf(logic.getSpace(h, m)));
+                }
+            }
         }
 
 
