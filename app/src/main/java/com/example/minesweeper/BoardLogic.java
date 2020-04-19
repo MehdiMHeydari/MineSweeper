@@ -58,9 +58,7 @@ public class BoardLogic {
 
 
     public int getSpace(int row, int col) {
-        if(board[row][col] == 9 ){
-            return 9;
-        } else if (board[row][col]< 0){
+        if (board[row][col]< 0){
             return -1;
         } else {
             return board[row][col];
@@ -95,7 +93,7 @@ public class BoardLogic {
                             try{
                                 if(board[l][u] != -9){
                                     if(board[l][u] == -10){
-                                        board[l][u] = 0;
+                                        board[l][u] =  0;
                                     }
                                     board[l][u]--;
                                 }
