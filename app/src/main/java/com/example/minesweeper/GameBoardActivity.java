@@ -20,6 +20,7 @@ public class GameBoardActivity extends AppCompatActivity {
     BoardLogic logic;
     Button[][] buttons;
     TextView numopen;
+    TextView Gamestatus;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,8 @@ public class GameBoardActivity extends AppCompatActivity {
         setContentView(R.layout.gameboard);
 
         main = new MainActivity();
+
+
 
         //pulling data from intent
         Intent intent = getIntent();
@@ -51,6 +54,10 @@ public class GameBoardActivity extends AppCompatActivity {
         //linking textview variable
         numopen = findViewById(R.id.numspaces);
 
+        Gamestatus = findViewById(R.id.Status);
+
+
+
 
 
 
@@ -68,14 +75,16 @@ public class GameBoardActivity extends AppCompatActivity {
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 params.weight = 1;
                 b.setLayoutParams(params);
+
+                //calulates position on board and sets tag
                 b.setTag((j * collumns) + h);
+                //sets an onclick for each button which first runs pickspace on that button then updates the entire board
                 b.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Button now = (Button)v;
                         int tag = (Integer)now.getTag();
                         logic.pickSpace(tag/ collumns, tag % collumns);
-                        System.out.println("getspace = " + logic.getSpace(tag/rows,tag% collumns));
 
                         Handler handler = new Handler();
                         handler.post(new Runnable() {
@@ -86,6 +95,7 @@ public class GameBoardActivity extends AppCompatActivity {
                         });
                     }
                 });
+                //adds button to board
                 buttons[j][h] = b;
                 row.addView(b);
             }
@@ -111,16 +121,22 @@ public class GameBoardActivity extends AppCompatActivity {
 
     }
 
-
+    //updates board to values from logic
     public void updateGraphics() {
-
+        //sets number of open covered spaces
         numopen.setText(String.valueOf(logic.numOpen()));
-        if(logic.isGameOver()){
+
+        //checks to see if you've uncovered all the spaces
+        if (logic.numOpen() == 0) {
+            logic.gameOver = true;
+        }
+        //if game is over sets final values for the board and tells you if you won or lost
+        if (logic.isGameOver()) {
             cmTimer.stop();
-            if (logic.numOpen() == 0){
-                numopen.setText("YOU WIN!");
-            }else{
-                numopen.setText("YOU LOST :(");
+            if (logic.numOpen() == 0) {
+                Gamestatus.setText("YOU WIN!");
+            } else {
+                Gamestatus.setText("YOU LOST :(");
             }
             for (int h = 0; h < buttons.length; h++) {
                 for (int m = 0; m < buttons[1].length; m++) {
@@ -128,17 +144,19 @@ public class GameBoardActivity extends AppCompatActivity {
                     buttons[h][m].setText(String.valueOf(logic.getSpace(h, m)));
                 }
             }
-        }
 
-
-        for (int i = 0; i < buttons.length; i++) {
-            for (int j = 0; j < buttons[1].length; j++) {
-                if(logic.getSpace(i,j) >= 0) {
-                    buttons[i][j].setText(String.valueOf(logic.getSpace(i, j)));
+        } else {
+            //updates board to their values in logic
+            for (int i = 0; i < buttons.length; i++) {
+                for (int j = 0; j < buttons[1].length; j++) {
+                    if (logic.getSpace(i, j) >= 0) {
+                        buttons[i][j].setText(String.valueOf(logic.getSpace(i, j)));
+                    }
                 }
             }
-        }
 
+
+        }
     }
 
 }
